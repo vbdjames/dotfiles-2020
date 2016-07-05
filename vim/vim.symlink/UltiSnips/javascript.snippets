@@ -1,0 +1,203 @@
+snippet fdj "Form Engine Directive Javascript" b
+'use strict';
+
+angular.module('ngx:formDirectives')
+    .directive('ngx${1:MyDirective}', function () {
+        return {
+            scope: {
+                vModel: '=ngx$1',
+                model: '=ngModel',
+                ngxLabel: '=?',
+                ngxRequired: '=?'
+            },
+            templateUrl: 'scripts/core/formDirectives/object/${1/(.*)/\l$1/g}/${1/(.*)/\l$1/g}.html',
+            compile: function (tElement, tAttrs, transclude) {
+                if (!tAttrs.ngx$1) {
+                    if (!tAttrs.ngModel) {
+                        throw 'ngModel attribute required if not used in form engine';
+                    }
+                } else {
+                    tAttrs.ngModel = tAttrs.ngx$1 + '.data.value';
+                    tAttrs.ngxRequired = tAttrs.ngx$1 + '.data.isRequired';
+                    tAttrs.ngxLabel = tAttrs.ngx$1 + '.label';
+                }
+            },
+            controller: function($scope) {
+                if( $scope.vModel ){
+                    $scope.vModel.init();
+                }
+            }
+        };
+
+    });
+endsnippet
+
+global !p
+def hyphencase(inp):
+    import re
+    s1 = ''.join(x for x in inp.title() if not x.isspace())
+    return re.sub('([a-z0-9])([A-Z])', r'\1-\2', s1).lower()
+endglobal
+
+snippet fds "Form Engine Directive Spec" b
+'use strict';
+/* global describe, beforeEach, inject, it, expect, sinon */
+
+describe.only('${1:New Directive Name}', function () {
+    var scope, template, elm;
+
+    beforeEach(function () {
+        module('ngx:formDirectives');
+        module('templates');
+    });
+
+    beforeEach(inject(function ($rootScope) {
+        scope = $rootScope.$new();
+    }));
+
+    function compileDirective(tpl) {
+        if (!tpl) { tpl = template; }
+        tpl = '<form name="form">' + tpl + '</form>';
+        inject(function ($compile) {
+            var form = $compile(tpl)(scope);
+            elm = form.find('div');
+        });
+        scope.$digest();
+    }
+
+    function testCommonBehavior(suite) {
+        it('has inputs', function () {
+            compileDirective();
+            expect(elm.find('input')).to.have.length(1);
+        });
+        it('displays the value that is in the model', function () {
+            suite.setValue('42');
+            compileDirective();
+            expect(elm.find('input').val()).to.equal('42');
+        });
+        it('handles empty values in the model', function () {
+            suite.setValue('');
+            expect(compileDirective).to.not.throw(Error);
+            expect(elm.find('input').val()).to.equal('');
+        });
+        it('handles the model value being set to null', function () {
+            compileDirective();
+            suite.setValue('');
+            scope.$digest();
+            expect(elm.find('input').val()).to.equal('');
+        });
+        it('updates the value from the model', function () {
+            compileDirective();
+            suite.setValue('24');
+            scope.$digest();
+            expect(elm.find('input').val()).to.equal('24');
+        });
+        describe('label', function () {
+            it('displays the value in the directive', function () {
+                compileDirective();
+                expect(elm.find('.control-label').html()).to.match(/$1/);
+            });
+            it('updates when the model changes', function () {
+                compileDirective();
+                suite.setLabel('Foo');
+                scope.$digest();
+                expect(elm.find('.control-label').html()).to.match(/Foo/);
+            });
+        });
+        describe('required indicator', function () {
+            it('shows when required and value is blank', function () {
+                suite.setValue('');
+                suite.setRequired(true);
+                compileDirective();
+                expect(elm.find('.required-ind').css('display')).to.not.equal('none');
+            });
+            it('hides when value is not blank', function () {
+                suite.setValue('42');
+                suite.setRequired(true);
+                compileDirective();
+                expect(elm.find('.required-ind').css('display')).to.equal('none');
+            });
+            it('hides when not required', function () {
+                suite.setValue('');
+                suite.setRequired(false);
+                compileDirective();
+                expect(elm.find('.required-ind').css('display')).to.equal('none');
+            });
+            it('updates when the model changes', function () {
+                suite.setValue('');
+                suite.setRequired(true);
+                compileDirective();
+                expect(elm.find('.required-ind').css('display')).to.not.equal('none');
+                suite.setValue('42');
+                scope.$digest();
+                expect(elm.find('.required-ind').css('display')).to.equal('none');
+            });
+            it('updates when required changes', function () {
+                suite.setValue('');
+                suite.setRequired(true);
+                compileDirective();
+                expect(elm.find('.required-ind').css('display')).to.not.equal('none');
+                suite.setRequired(false);
+                scope.$digest();
+                expect(elm.find('.required-ind').css('display')).to.equal('none');
+            });
+        });
+        describe('field updates', function () {
+            it('update the model value', function () {
+                suite.setValue('42');
+                compileDirective();
+                elm.find('input').val('24').trigger('input');
+                expect(suite.getValue()).to.equal('24');
+            });
+            it('update the metadata');
+        });
+    }
+
+    describe('as a stand-alone directive', function () {
+        this.setValue = function (value) { scope.model.value = value; };
+        this.getValue = function () { return scope.model.value; };
+        this.setLabel = function (label) { scope.model.label = label; };
+        this.setRequired = function (required) { scope.model.required = required; };
+    
+        beforeEach(function () {
+            scope.model = {
+                'value': '42',
+                'required': true,
+                'label': '$1'
+            };
+            template = '<div ngx-`!p snip.rv=hyphencase(t[1])` ' +
+                'ng-model="model.value" ' +
+                'ngx-required="model.required" ' +
+                'ngx-label="model.label" ' +
+                '></div>';
+        });
+        testCommonBehavior(this);
+    });
+
+    describe('as a form-directive', function () {
+        this.setValue = function (value) { scope.model.data.value = value; };
+        this.getValue = function () { return scope.model.data.value; };
+        this.setLabel = function (label) { scope.model.label = label; };
+        this.setRequired = function (required) { scope.model.data.isRequired = required; };
+
+        beforeEach(function () {
+            scope.model = {
+                'init': sinon.spy(),
+                'style': '$1',
+                'description': '$1',
+                'params': {
+                },
+                'label': '$1',
+                'data': {
+                    'id': '00000000-0000-0000-0000-000000000001',
+                    'value': '42',
+                    'isRequired': true
+                }
+            };
+            template = '<div ngx-`!p snip.rv=hyphencase(t[1])`="model"></div>';
+        });
+        testCommonBehavior(this);
+    });
+
+});
+endsnippet

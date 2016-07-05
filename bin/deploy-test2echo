@@ -1,0 +1,21 @@
+#!/usr/bin/expect
+    # grab the password
+    # set pass [lindex $argv 0];
+    stty -echo
+    send_user -- "Password: "
+    expect_user -re "(.*)\n"
+    send_user "\n"
+    stty echo
+    set pass $expect_out(1,string)
+    set curr_dir [pwd]
+    spawn bash -c "scp $curr_dir/dist/map-echo.* $curr_dir/dist/Test2Echo/*.war test2echo.internal:~/upload"
+    expect "password: "
+    send "$pass\r"
+    expect "❯ "
+    spawn ssh -t test2echo.internal "sudo cp /u00/home/djames/upload/* /jboss/server/all/farm && ls -al /jboss/server/all/farm"
+    expect "password: "
+    send "$pass\r"
+    expect "djames:"
+    send "$pass\r"
+    expect "❯ "
+
