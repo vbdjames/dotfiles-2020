@@ -5,6 +5,3 @@ tell application "System Events"
   end if
 end tell
 END
-
-/Applications/Karabiner.app/Contents/Library/bin/karabiner reloadxml
-/Applications/Karabiner.app/Contents/Library/bin/karabiner enable private.f192f19_escape

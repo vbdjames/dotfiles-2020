@@ -5,6 +5,3 @@ tell application "System Events"
   end if
 end tell
 END
-
-/Applications/Seil.app/Contents/Library/bin/seil set keycode_capslock 80
-/Applications/Seil.app/Contents/Library/bin/seil set enable_capslock 1
