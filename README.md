@@ -16,7 +16,7 @@ There are a few special files in the hierarchy:
 
 - **bin/**": Anything in `bin/` will get added to your `$PATH` and be made
   available everywhere.
-- **Brewfile**: This is a list of applications for [Homebrew][] to install:
+- **Brewfile**: This is a list of applications for [Homebrew](brew.sh) to install:
   things like ...
 - **topic/*.zsh**: Any files ending in `.zsh` get loaded into your environment.
 - **topic/path.zsh**: Any file named `path.zsh` is loaded first and is expected
@@ -33,8 +33,9 @@ There are a few special files in the hierarchy:
 - Install OS X
 - Install Xcode
 - `xcode-select --install`
-- `sudo git` and agree to license
+- `sudo xcodebuild -license` and agree to license
 - Restore ssh keys and localrc
+- Log in to the Mac App Store
 
 ## install
 
@@ -48,10 +49,7 @@ script/bootstrap
 ```
 
 This will symlink the appropriate files in `.dotfiles` to your home directory.
-Everything is configured and tweaked withing `~/.dotfiles`.
-
-The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
-which sets up a few paths that'll be different on your particular machine.
+Everything is configured and tweaked within `~/.dotfiles`.
 
 `dot` is a simple script that installs some dependencies, sets sane OS X
 defaults, and so on. Tweak this script, and occasionally run `dot` from
@@ -63,10 +61,10 @@ what about new dotfiles, etc.
 
 ## post-install
 
+- Launch 1Password: set up sync.
 - Launch Dropbox: log in and get the sync started, perhaps selectively
 - Launch Alfred: change the launch key and locale and install the powerpack.
 - Launch System Preferences -> Security & Privacy -> Privacy: enable Keyboard Maestro, Synergy, Hammerspoon, Karabiner, Alfred, Cheatsheet, and DropBox.
-- Launch 1Password: set up sync.
 - Launch Chrome: log in, let it link to 1Password, and install the Pinboard plugin.
 - Launch Safari: let it link to 1Password, and install the Pinboard plugin.
 - Launch Spotify: log in.
@@ -74,7 +72,7 @@ what about new dotfiles, etc.
 - Launch Slack: set up teams (757dev, codeforva, nextgen?)
 - Launch IntelliJ: register with JetBrains account, configure Settings Repository, install plugins (IdeaVim, Relative Line Number, JRebel for IntelliJ), go into Preferences and Activate JRebel
 - Copy solarized.clr to ~/Library/Colors, launch fonts & colors, choose solarized pallette
-- Launch nvALT: change view to horizontal layout, List Text Size to Large, Read notes from folder: ~/Dropbox/Notes, Store and read notes on disk as: Plain Text Files, Body Font: SourceCodePro-18, Search Highlight: Solarized Base3, Foreground Text: Solarized Base0, Background: Solarized Base03, Alternating Row Colors: checked, Keep Note Body Width Readable: checked, 880 pixels 
+- Launch nvALT: change view to horizontal layout, List Text Size to Large, Read notes from folder: ~/Dropbox/Notes, Store and read notes on disk as: Plain Text Files, Body Font: SourceCodePro-18, Search Highlight: Solarized Base3, Foreground Text: Solarized Base0, Background: Solarized Base03, Alternating Row Colors: checked, Keep Note Body Width Readable: checked, 880 pixels
 - TODO: how to deliver music to the new laptop?
 - TODO: install a few private fluid apps
 
