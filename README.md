@@ -74,7 +74,6 @@ what about new dotfiles, etc.
 - Launch IntelliJ: register with JetBrains account, configure Settings Repository (https://github.com/vbdjames/intellij-settings), install plugins (IdeaVim, Relative Line Number, JRebel for IntelliJ), go into Preferences and Activate JRebel
 - Launch nvALT:ange Read notes from folder: ~/Dropbox/Notes
 - TODO: how to deliver music to the new laptop?
-- TODO: install a few private fluid apps
 - TODO: how to manage VMs
 
 ## thanks
