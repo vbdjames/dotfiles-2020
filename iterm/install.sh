@@ -3,19 +3,18 @@ plb=/usr/libexec/PlistBuddy
 cd "$(dirname "$0")"
 script_path=$(pwd -P)
 
-echo $plb
-echo $script_path
-#if [[ $(ps aux | grep "[i]Term.app") ]]; then
-#    echo "Please quit iTerm before running this script"
-#    exit 1
-#fi
+if [[ $(ps aux | grep "[i]Term.app") ]]; then
+    echo "Please quit iTerm before running this script"
+    exit 1
+fi
 
-#if [ ! -f $dest ]; then
-#    echo "iTerm has to be startd and shut down before options can be set."
-#    open /Applications/iTerm.app
-#    echo "After iTerm starts, please exit normally, then press return to continue."
-#    read dummy
-#fi
+if [ ! -f $dest ]; then
+    echo "iTerm has to be started and shut down before options can be set."
+    open /Applications/iTerm.app
+    echo "After iTerm starts, please make a change to the default profile,"
+    echo "then exit normally, and press return to continue."
+    read dummy
+fi
 
 exists () {
     if [[ $($plb -c "Print $1" $dest 2>/dev/null) == '' ]]; then
@@ -54,7 +53,7 @@ if ! exists "Custom\ Color\ Presets:IR\ Black"; then
 fi
 
 default_guid=$(defaults read com.googlecode.iterm2 "Default Bookmark Guid")
-bookmark_count=$(defaults read com.googlecode.iterm2 "New Bookmarks" | grep "Guid" | wc -l)
+bookmark_count=$(defaults read com.googlecode.iterm2 "New Bookmarks" | grep "Guid =" | wc -l)
 
 for ((idx=0; idx < $bookmark_count; idx++)) 
 do
@@ -96,7 +95,7 @@ do
         if exists ":New\ Bookmarks:$idx:Minimum\ Contrast"; then
             $plb -c "Set :New\ Bookmarks:$idx:Minimum\ Contrast 0.25" $dest
         else
-            $plb -c "Add :New\ Bookmarks:$idx:Minimum\ Contrast float 0.25" $dest
+            $plb -c "Add :New\ Bookmarks:$idx:Minimum\ Contrast real 0.25" $dest
         fi
     fi
 done

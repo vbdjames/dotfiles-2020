@@ -37,9 +37,9 @@ set guifont=Source\ Code\ Pro:h15
 
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 
-colorscheme solarized
-set background=dark
-call togglebg#map("<F5>")
+silent! olorscheme solarized
+silent! set background=dark
+silent! call togglebg#map("<F5>")
 
 set wildignore+=.DS_Store
 hi MatchParen guibg=NONE guifg=NONE gui=underline ctermbg=NONE ctermfg=NONE cterm=underline
