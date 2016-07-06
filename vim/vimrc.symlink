@@ -37,7 +37,7 @@ set guifont=Source\ Code\ Pro:h15
 
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 
-silent! olorscheme solarized
+silent! colorscheme solarized
 silent! set background=dark
 silent! call togglebg#map("<F5>")
 
