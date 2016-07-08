@@ -57,6 +57,8 @@ cask 'slack'
 cask 'spotify'
 cask 'sql-power-architect-jdbc'
 cask 'squirrelsql'
+cask 'vagrant'
+cask 'vagrant-manager'
 cask 'virtualbox'
 mas 'Blackmagic Disk Speed Test', id: 425264550 
 mas 'Compare Folders', id: 816042486 
