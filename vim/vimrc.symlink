@@ -64,6 +64,8 @@ let g:syntastic_aggregate_errors = 1
 
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
+let &colorcolumn=join(range(81,999),",")
+
 " ctrlp configuration
 " let g:ctrlp_max_files=0
 
