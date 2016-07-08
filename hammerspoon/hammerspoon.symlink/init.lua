@@ -29,7 +29,7 @@ local nvalt = "nvALT"
 local safari = "Safari"
 local sqldeveloper = "SQL Developer"
 local taskpaper = "TaskPaper"
-local windowsvm = "Windows7"
+local mapcomclient = "mapcom-client"
 
 local mapcomCoding = {
     {
@@ -164,7 +164,7 @@ hs.hotkey.bind(ctrl_alt_cmd, "k", function()
 end)
 
 -- open apps
-hs.hotkey.bind(hyper, "7", function() open(windowsvm) end )
+hs.hotkey.bind(hyper, "c", function() open(mapcomclient) end )
 hs.hotkey.bind(hyper, "b", function() open(bitbucket) end )
 hs.hotkey.bind(hyper, "f", function() open(fromscratch) end )
 hs.hotkey.bind(hyper, "i", function() open(intellij) end )
@@ -179,12 +179,12 @@ hs.hotkey.bind(hyper, "w", function() open(mapwiki) end )
 hs.hotkey.bind(hyper, "u", function() open(itunes) end )
 
 function open(appName)
-    if (appName == windowsvm) then
-        local win7 = hs.appfinder.appFromWindowTitlePattern(windowsvm)
-        if (win7) then
-            win7:activate()
+    if (appName == mapcomclient) then
+        local mapclient = hs.appfinder.appFromWindowTitlePattern(mapcomclient)
+        if (mapclient) then
+            mapclient:activate()
         else
-            os.execute("/usr/local/bin/VBoxManage startvm " .. windowsvm)
+            os.execute("/usr/local/bin/VBoxManage startvm " .. mapcomclient)
         end
         return true;
     else
@@ -193,11 +193,11 @@ function open(appName)
 end
 
 function kill(appName)
-    if (appName == windowsvm) then
-        local win7 = hs.appfinder.appFromWindowTitlePattern(windowsvm)
-        if (win7) then
-            win7:activate()
-            os.execute("/usr/local/bin/VBoxManage controlvm " .. windowsvm .. " acpipowerbutton")
+    if (appName == mapcomclient) then
+        local mapclient = hs.appfinder.appFromWindowTitlePattern(mapcomclient)
+        if (mapclient) then
+            mapclient:activate()
+            os.execute("/usr/local/bin/VBoxManage controlvm " .. mapcomclient .. " acpipowerbutton")
         else
             print("could not find app " .. appName)
         end
@@ -215,7 +215,7 @@ end
 
 function beginWork()
     hs.alert.show("Opening work applications")
-    local apps = { windowsvm, bitbucket, calendar, dash, 
+    local apps = { mapcomclient, bitbucket, calendar, dash, 
         intellij, iterm, jenkins, jira, mail, mapwiki, 
         nvalt, safari, sqldeveloper, taskpaper }
     for i, v in ipairs(apps) do
@@ -248,7 +248,7 @@ end
 
 function endWork()
     hs.alert.show("Shutting down work applications")
-    local closeApps = { windowsvm, bitbucket, calendar, dash, 
+    local closeApps = { mapcomclient, bitbucket, calendar, dash, 
         intellij, iterm, itunes, jenkins, jira, mail, mapwiki, 
         nvalt, safari, sqldeveloper, taskpaper }
     for i, v in ipairs(closeApps) do
