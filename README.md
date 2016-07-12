@@ -73,6 +73,7 @@ what about new dotfiles, etc.
 - Launch Slack: set up teams (757dev, codeforva, friendshipismagical)
 - Launch IntelliJ: register with JetBrains account, configure Settings Repository (https://github.com/vbdjames/intellij-settings), install plugins (IdeaVim, Relative Line Number, JRebel for IntelliJ), go into Preferences and Activate JRebel
 - Launch nvALT:ange Read notes from folder: ~/Dropbox/Notes
+- Download & install SQLDeveloper, launch and import connections (from ?), set look and feel to "Mac OS X", and Code Editor Font to Source Code Pro, 14.
 - TODO: how to deliver music to the new laptop?
 - TODO: how to manage VMs
 
