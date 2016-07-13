@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+say "building"
+ant all
+sleep 5
+say "deploying"
+deploy-test2echo
+say "complete"
