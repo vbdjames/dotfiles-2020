@@ -77,3 +77,4 @@ mas 'Pixelmator', id: 407963104
 mas 'Pomodoro Timer', id: 872515009 
 mas 'TaskPaper', id: 424281111 
 mas 'iPulse', id: 1028916583 
+mas 'Tadam', id: 531349534
