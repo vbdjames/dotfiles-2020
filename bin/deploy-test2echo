@@ -1,4 +1,5 @@
 #!/usr/bin/expect
+    set timeout 60
     set pass $env(test2pass)
     set curr_dir [pwd]
     spawn bash -c "scp $curr_dir/dist/map-echo.* $curr_dir/dist/Test2Echo/*.war test2echo:~/upload"

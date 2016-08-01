@@ -1,7 +1,13 @@
 #!/usr/bin/env sh
 say "building"
 ant all
-sleep 5
-say "deploying"
-deploy-test2echo
-say "complete"
+if [ $? -ne 0 ]
+then
+    say "build failed"
+else
+    sleep 5
+    say "deploying"
+    deploy-test2echo
+    say "complete"
+fi
+flash-screen
