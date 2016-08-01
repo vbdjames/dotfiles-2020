@@ -17,6 +17,7 @@ local viewsonic_926 = "VA926 Series"
 local bitbucket = "Bitbucket"
 local calendar = "Calendar"
 local dash = "Dash"
+local dbeaver = "Dbeaver"
 local fromscratch = "FromScratch"
 local intellij = "IntelliJ IDEA"
 local iterm = "iTerm"
@@ -29,7 +30,7 @@ local nvalt = "nvALT"
 local safari = "Safari"
 local sqldeveloper = "SQL Developer"
 local taskpaper = "TaskPaper"
-local mapcomclient = "mapcom-client"
+local mapcomclient = "mapcomClient"
 
 local mapcomCoding = {
     {
@@ -42,7 +43,7 @@ local mapcomCoding = {
     {
         name = { bitbucket, calendar, dash, iterm, 
             itunes, jenkins, jira, mail, mapwiki, safari, 
-            sqldeveloper, taskpaper },
+            dbeaver, taskpaper },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(viewsonic_926))
             win:maximize()
@@ -172,7 +173,7 @@ hs.hotkey.bind(hyper, "j", function() open(jira) end )
 hs.hotkey.bind(hyper, "k", function() open(jenkins) end )
 hs.hotkey.bind(hyper, "m", function() open(mail) end )
 hs.hotkey.bind(hyper, "n", function() open(nvalt) end )
-hs.hotkey.bind(hyper, "q", function() open(sqldeveloper) end )
+hs.hotkey.bind(hyper, "q", function() open(dbeaver) end )
 hs.hotkey.bind(hyper, "s", function() open(safari) end )
 hs.hotkey.bind(hyper, "t", function() open(iterm) end )
 hs.hotkey.bind(hyper, "w", function() open(mapwiki) end )
@@ -188,19 +189,19 @@ function open(appName)
         end
         return true;
     else
-        hs.application.open(appName)
+        -- launchOrFocus not working properly for fluidapps
+        local app = hs.application.get(appName)
+        if (app) then
+            app:activate()
+        else
+            hs.application.open(appName)
+        end
     end
 end
 
 function kill(appName)
     if (appName == mapcomclient) then
-        local mapclient = hs.appfinder.appFromWindowTitlePattern(mapcomclient)
-        if (mapclient) then
-            mapclient:activate()
-            os.execute("/usr/local/bin/VBoxManage controlvm " .. mapcomclient .. " acpipowerbutton")
-        else
-            print("could not find app " .. appName)
-        end
+        os.execute("/usr/local/bin/VBoxManage controlvm " .. mapcomclient .. " acpipowerbutton")
     else
         local app = hs.application.find(appName)
         if (app) then
@@ -217,28 +218,11 @@ function beginWork()
     hs.alert.show("Opening work applications")
     local apps = { mapcomclient, bitbucket, calendar, dash, 
         intellij, iterm, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, sqldeveloper, taskpaper }
+        nvalt, safari, dbeaver, taskpaper }
     for i, v in ipairs(apps) do
         open(v)
     end
     hs.application.open(os.getenv("HOME") .. "/.bin/programming-playlist-paused.app");
-
-    function areAllOpen()
-        for i, v in ipairs(apps) do
-            if (hs.application.find(v) == nil) then
-                print("all are NOT open")
-                return false
-            end
-        end
-        print("all are open")
-        return true
-    end
-
-    -- function foo()
-    --     applyLayouts(mapcomCoding)
-    -- end
-
-    hs.timer.waitUntil(areAllOpen, function() applyLayouts(mapcomCoding) end)
 
     -- set up iterm tabs/tmux sessions/...
     -- start a new dailyrx for today if doesn't exist, else focus todays
@@ -250,7 +234,7 @@ function endWork()
     hs.alert.show("Shutting down work applications")
     local closeApps = { mapcomclient, bitbucket, calendar, dash, 
         intellij, iterm, itunes, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, sqldeveloper, taskpaper }
+        nvalt, safari, dbeaver, taskpaper }
     for i, v in ipairs(closeApps) do
         kill(v)
     end
