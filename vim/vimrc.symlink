@@ -22,6 +22,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'aklt/plantuml-syntax'
 
 call vundle#end()
 
