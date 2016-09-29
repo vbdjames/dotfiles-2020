@@ -3,3 +3,5 @@
     path = ~/.gitconfig.local
 [push]
     default = simple
+[user]
+	useConfigOnly = true
