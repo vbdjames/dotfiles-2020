@@ -23,6 +23,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'aklt/plantuml-syntax'
+Plugin 'hdima/python-syntax'
 
 call vundle#end()
 
@@ -103,6 +104,8 @@ elseif &term=~'xterm-256color' " terminal
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+map ,t :w\|:!%:p<cr>
 
 nmap <silent> ,/ :nohlsearch<CR>
 
