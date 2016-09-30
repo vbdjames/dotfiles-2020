@@ -11,7 +11,7 @@ local hyper = {"ctrl", "alt", "cmd", "shift"}
 -- Screens at the office
 local laptop_screen = "Color LCD"
 local dell_2309 = "DELL S2309W"
-local viewsonic_926 = "VA926 Series"
+local dell_2005 = "DELL 2005FPW"
 
 -- Applications
 local bitbucket = "Bitbucket"
@@ -45,7 +45,7 @@ local mapcomCoding = {
             itunes, jenkins, jira, mail, mapwiki, safari, 
             dbeaver, taskpaper },
         func = function(index, win)
-            win:moveToScreen(hs.screen.find(viewsonic_926))
+            win:moveToScreen(hs.screen.find(dell_2005))
             win:maximize()
             win:application():hide()
         end
@@ -116,6 +116,32 @@ hs.hotkey.bind(ctrl_alt, "Right", function()
     f.y = max.y
     f.w = max.w / 2
     f.h = max.h
+    win:setFrame(f)
+end)
+
+-- move to top half screen
+hs.hotkey.bind(ctrl_alt, "Up", function() 
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h / 2
+    win:setFrame(f)
+end)
+
+-- move to bottom half screen
+hs.hotkey.bind(ctrl_alt, "Down", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x
+    f.y = max.y + (max.h / 2)
+    f.w = max.w
+    f.h = max.h / 2
     win:setFrame(f)
 end)
 
