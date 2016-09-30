@@ -250,7 +250,8 @@ function beginWork()
     for i, v in ipairs(apps) do
         open(v)
     end
-    hs.application.open(os.getenv("HOME") .. "/.bin/programming-playlist-paused.app");
+    hs.osascript.applescript('tell application "iTunes" to play playlist "Programming Music"')
+    hs.itunes.pause()
 
     -- set up iterm tabs/tmux sessions/...
     -- start a new dailyrx for today if doesn't exist, else focus todays
