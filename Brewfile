@@ -4,6 +4,7 @@ tap 'homebrew/bundle'
 tap 'caskroom/fonts'
 
 brew 'ack'
+brew 'ag'
 brew 'ant'
 brew 'ant-contrib'
 brew 'antigen'

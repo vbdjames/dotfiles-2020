@@ -24,6 +24,8 @@ Plugin 'Shougo/neocomplete.vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'aklt/plantuml-syntax'
 Plugin 'hdima/python-syntax'
+Plugin 'fmoralesc/vim-pad'
+Plugin 'fmoralesc/vim-tutor-mode'
 
 call vundle#end()
 
@@ -67,6 +69,14 @@ let g:syntastic_aggregate_errors = 1
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 let &colorcolumn=join(range(81,999),",")
+
+" Vim-pad settings
+let g:pad#dir = '~/Dropbox/Notes'
+let g:pad#open_in_split = 0
+let g:pad#position = { "list" : "right", "pads" : "bottom" }
+let g:pad#title_first_line = 0
+let g:pad#read_nchars_from_files = 0
+let g:pad#search_backend = 'ag'
 
 " ctrlp configuration
 " let g:ctrlp_max_files=0
