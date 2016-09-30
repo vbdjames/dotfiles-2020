@@ -19,6 +19,7 @@ local calendar = "Calendar"
 local dash = "Dash"
 local dbeaver = "Dbeaver"
 local fromscratch = "FromScratch"
+local hipchat = "HipChat"
 local intellij = "IntelliJ IDEA"
 local iterm = "iTerm"
 local itunes = "iTunes"
@@ -34,7 +35,7 @@ local mapcomclient = "mapcomClient"
 
 local mapcomCoding = {
     {
-        name = { nvalt },
+        name = { hipchat, nvalt },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(laptop_screen))
             win:maximize()
@@ -194,6 +195,7 @@ end)
 hs.hotkey.bind(hyper, "c", function() open(mapcomclient) end )
 hs.hotkey.bind(hyper, "b", function() open(bitbucket) end )
 hs.hotkey.bind(hyper, "f", function() open(fromscratch) end )
+hs.hotkey.bind(hyper, "h", function() open(hipchat) end )
 hs.hotkey.bind(hyper, "i", function() open(intellij) end )
 hs.hotkey.bind(hyper, "j", function() open(jira) end )
 hs.hotkey.bind(hyper, "k", function() open(jenkins) end )
@@ -242,8 +244,8 @@ end
 
 function beginWork()
     hs.alert.show("Opening work applications")
-    local apps = { mapcomclient, bitbucket, calendar, dash, 
-        intellij, iterm, jenkins, jira, mail, mapwiki, 
+    local apps = { mapcomclient, bitbucket, calendar, dash, hipchat, 
+        intellij, iterm, itunes, jenkins, jira, mail, mapwiki, 
         nvalt, safari, dbeaver, taskpaper }
     for i, v in ipairs(apps) do
         open(v)
@@ -258,7 +260,7 @@ end
 
 function endWork()
     hs.alert.show("Shutting down work applications")
-    local closeApps = { mapcomclient, bitbucket, calendar, dash, 
+    local closeApps = { mapcomclient, bitbucket, calendar, dash, hipchat,
         intellij, iterm, itunes, jenkins, jira, mail, mapwiki, 
         nvalt, safari, dbeaver, taskpaper }
     for i, v in ipairs(closeApps) do
