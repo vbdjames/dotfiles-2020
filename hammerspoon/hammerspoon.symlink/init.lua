@@ -17,7 +17,6 @@ local dell_2005 = "DELL 2005FPW"
 local bitbucket = "Bitbucket"
 local calendar = "Calendar"
 local dash = "Dash"
-local dbeaver = "Dbeaver"
 local fromscratch = "FromScratch"
 local hipchat = "HipChat"
 local intellij = "IntelliJ IDEA"
@@ -29,13 +28,14 @@ local mail = "Mail"
 local mapwiki = "Wiki"
 local nvalt = "nvALT"
 local safari = "Safari"
-local sqldeveloper = "SQL Developer"
+local spotify = "Spotify"
+local sqldeveloper = "SQLDeveloper"
 local taskpaper = "TaskPaper"
 local mapcomclient = "mapcomClient"
 
 local mapcomCoding = {
     {
-        name = { hipchat, nvalt },
+        name = { hipchat, nvalt, spotify },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(laptop_screen))
             win:maximize()
@@ -43,8 +43,8 @@ local mapcomCoding = {
     },
     {
         name = { bitbucket, calendar, dash, iterm, 
-            itunes, jenkins, jira, mail, mapwiki, safari, 
-            dbeaver, taskpaper },
+            jenkins, jira, mail, mapwiki, safari, 
+            sqldeveloper, taskpaper },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(dell_2005))
             win:maximize()
@@ -180,14 +180,20 @@ hs.hotkey.bind(ctrl_alt_cmd, "Space", function()
 end)
 
 hs.hotkey.bind(ctrl_alt_cmd, "p", function()
-    if (hs.itunes.isRunning()) then
-        hs.itunes.playpause()
+    if (hs.spotify.isRunning()) then
+        hs.spotify.playpause()
     end
 end)
 
 hs.hotkey.bind(ctrl_alt_cmd, "k", function()
-    if (hs.itunes.isRunning()) then
-        hs.itunes.next()
+    if (hs.spotify.isRunning()) then
+        hs.spotify.next()
+    end
+end)
+
+hs.hotkey.bind(ctrl_alt_cmd, "t", function()
+    if (hs.spotify.isRunning()) then
+        hs.spotify.displayCurrentTrack()
     end
 end)
 
@@ -201,11 +207,10 @@ hs.hotkey.bind(hyper, "j", function() open(jira) end )
 hs.hotkey.bind(hyper, "k", function() open(jenkins) end )
 hs.hotkey.bind(hyper, "m", function() open(mail) end )
 hs.hotkey.bind(hyper, "n", function() open(nvalt) end )
-hs.hotkey.bind(hyper, "q", function() open(dbeaver) end )
+hs.hotkey.bind(hyper, "q", function() open(sqldeveloper) end )
 hs.hotkey.bind(hyper, "s", function() open(safari) end )
 hs.hotkey.bind(hyper, "t", function() open(iterm) end )
 hs.hotkey.bind(hyper, "w", function() open(mapwiki) end )
-hs.hotkey.bind(hyper, "u", function() open(itunes) end )
 
 function open(appName)
     if (appName == mapcomclient) then
@@ -216,6 +221,13 @@ function open(appName)
             os.execute("/usr/local/bin/VBoxManage startvm " .. mapcomclient)
         end
         return true;
+    elseif (appName == sqldeveloper) then
+        local app = hs.application.get("Oracle SQL Developer")
+        if (app) then
+            app:activate()
+        else
+            hs.application.open(appName)
+        end
     else
         -- launchOrFocus not working properly for fluidapps
         local app = hs.application.get(appName)
@@ -245,13 +257,14 @@ end
 function beginWork()
     hs.alert.show("Opening work applications")
     local apps = { mapcomclient, bitbucket, calendar, dash, hipchat, 
-        intellij, iterm, itunes, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, dbeaver, taskpaper }
+        intellij, iterm, jenkins, jira, mail, mapwiki, 
+        nvalt, safari, taskpaper, spotify }
     for i, v in ipairs(apps) do
         open(v)
     end
-    hs.osascript.applescript('tell application "iTunes" to play playlist "Programming Music"')
-    hs.itunes.pause()
+    hs.applescript('tell application "Spotify" to play track "spotify:track:2pnJ87yTVpkgtZh6Tq4vKh" in context "spotify:user:johanbrook:playlist:2mtlhuFVOFMn6Ho3JmrLc2"')
+    hs.spotify.pause()
+
 
     -- set up iterm tabs/tmux sessions/...
     -- start a new dailyrx for today if doesn't exist, else focus todays
@@ -262,8 +275,8 @@ end
 function endWork()
     hs.alert.show("Shutting down work applications")
     local closeApps = { mapcomclient, bitbucket, calendar, dash, hipchat,
-        intellij, iterm, itunes, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, dbeaver, taskpaper }
+        intellij, iterm, jenkins, jira, mail, mapwiki, 
+        nvalt, safari, taskpaper, spotify }
     for i, v in ipairs(closeApps) do
         kill(v)
     end
