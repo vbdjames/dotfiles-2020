@@ -4,4 +4,6 @@
 [push]
     default = simple
 [user]
-	useConfigOnly = true
+    useConfigOnly = true
+[core]
+    excludesfile = ~/.gitignore_global
