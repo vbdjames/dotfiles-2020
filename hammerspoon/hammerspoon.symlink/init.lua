@@ -1,4 +1,5 @@
--- TODO: need to map hot key to print planner page in taskpaper
+-- TODO: manage laptop display resolution automatically
+-- TODO: manage volume, including starting quiet at work, when not headphones
 --------------------------------------------------------------------------------
 -- CONSTANTS
 --------------------------------------------------------------------------------
@@ -9,9 +10,10 @@ local ctrl_alt_cmd = {"ctrl", "alt", "cmd"}
 local hyper = {"ctrl", "alt", "cmd", "shift"}
 
 -- Screens at the office
+--
 local laptop_screen = "Color LCD"
 local dell_2309 = "DELL S2309W"
-local dell_2005 = "DELL 2005FPW"
+local viewsonic = "CDE3203"
 
 -- Applications
 local bitbucket = "Bitbucket"
@@ -30,23 +32,27 @@ local nvalt = "nvALT"
 local safari = "Safari"
 local spotify = "Spotify"
 local sqldeveloper = "SQLDeveloper"
-local taskpaper = "TaskPaper"
+local osqldeveloper = "Oracle SQL Developer"
 local mapcomclient = "mapcomClient"
+local wunderlist = "Wunderlist"
 
 local mapcomCoding = {
     {
-        name = { hipchat, nvalt, spotify },
+        name = { hipchat, nvalt, spotify, wunderlist, calendar },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(laptop_screen))
             win:maximize()
+            if index ~= 1 then
+                win:application():hide()
+            end
         end
     },
     {
-        name = { bitbucket, calendar, dash, iterm, 
+        name = { bitbucket, dash, iterm, 
             jenkins, jira, mail, mapwiki, safari, 
-            sqldeveloper, taskpaper },
+            osqldeveloper },
         func = function(index, win)
-            win:moveToScreen(hs.screen.find(dell_2005))
+            win:moveToScreen(hs.screen.find(dell_2309))
             win:maximize()
             win:application():hide()
         end
@@ -60,7 +66,7 @@ local mapcomCoding = {
     {
         name = { intellij },
         func = function(index, win)
-            win:moveToScreen(hs.screen.find(dell_2309))
+            win:moveToScreen(hs.screen.find(viewsonic))
             win:maximize()
         end
     }
@@ -179,6 +185,7 @@ hs.hotkey.bind(ctrl_alt_cmd, "Space", function()
     win:maximize()
 end)
 
+-- spotify
 hs.hotkey.bind(ctrl_alt_cmd, "p", function()
     if (hs.spotify.isRunning()) then
         hs.spotify.playpause()
@@ -198,8 +205,8 @@ hs.hotkey.bind(ctrl_alt_cmd, "t", function()
 end)
 
 -- open apps
-hs.hotkey.bind(hyper, "c", function() open(mapcomclient) end )
 hs.hotkey.bind(hyper, "b", function() open(bitbucket) end )
+hs.hotkey.bind(hyper, "c", function() open(mapcomclient) end )
 hs.hotkey.bind(hyper, "f", function() open(fromscratch) end )
 hs.hotkey.bind(hyper, "h", function() open(hipchat) end )
 hs.hotkey.bind(hyper, "i", function() open(intellij) end )
@@ -210,6 +217,7 @@ hs.hotkey.bind(hyper, "n", function() open(nvalt) end )
 hs.hotkey.bind(hyper, "q", function() open(sqldeveloper) end )
 hs.hotkey.bind(hyper, "s", function() open(safari) end )
 hs.hotkey.bind(hyper, "t", function() open(iterm) end )
+hs.hotkey.bind(hyper, "u", function() open(wunderlist) end )
 hs.hotkey.bind(hyper, "w", function() open(mapwiki) end )
 
 function open(appName)
@@ -222,11 +230,11 @@ function open(appName)
         end
         return true;
     elseif (appName == sqldeveloper) then
-        local app = hs.application.get("Oracle SQL Developer")
+        local app = hs.application.get(osqldeveloper)
         if (app) then
             app:activate()
         else
-            hs.application.open(appName)
+            hs.application.open(sqldeveloper)
         end
     else
         -- launchOrFocus not working properly for fluidapps
@@ -258,7 +266,7 @@ function beginWork()
     hs.alert.show("Opening work applications")
     local apps = { mapcomclient, bitbucket, calendar, dash, hipchat, 
         intellij, iterm, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, taskpaper, spotify }
+        nvalt, safari, wunderlist, spotify, sqldeveloper }
     for i, v in ipairs(apps) do
         open(v)
     end
@@ -274,10 +282,11 @@ end
 
 function endWork()
     hs.alert.show("Shutting down work applications")
-    local closeApps = { mapcomclient, bitbucket, calendar, dash, hipchat,
+    local closeApps = { safari, mapcomclient, bitbucket, calendar, dash, hipchat,
         intellij, iterm, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, taskpaper, spotify }
+        nvalt, wunderlist, spotify, osqldeveloper }
     for i, v in ipairs(closeApps) do
+        print(v)
         kill(v)
     end
     hs.execute("diskutil unmount '/Volumes/Time Machine'")
