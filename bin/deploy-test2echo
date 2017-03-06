@@ -2,7 +2,7 @@
     set timeout 60
     set pass $env(test2pass)
     set curr_dir [pwd]
-    spawn bash -c "scp $curr_dir/dist/map-echo.* $curr_dir/dist/Test2Echo/*.war test2echo:~/upload"
+    spawn bash -c "scp $curr_dir/dist/map-echo* test2echo:~/upload"
     expect "❯ "
     spawn ssh -t test2echo "sudo cp /u00/home/djames/upload/* /jboss/server/all/farm && ls -al /jboss/server/all/farm"
     expect "djames:"
