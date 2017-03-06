@@ -26,6 +26,10 @@ Plugin 'aklt/plantuml-syntax'
 Plugin 'hdima/python-syntax'
 Plugin 'fmoralesc/vim-pad'
 Plugin 'fmoralesc/vim-tutor-mode'
+Plugin 'guns/vim-clojure-static'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'tpope/vim-fireplace'
+Plugin 'tpope/vim-classpath'
 
 call vundle#end()
 

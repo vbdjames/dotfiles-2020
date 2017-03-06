@@ -14,6 +14,7 @@ brew 'coreutils'
 brew 'direnv'
 brew 'git'
 brew 'macvim', args: ['override-system-vim', 'with-cscope', 'with-lua']
+brew 'leiningen'
 brew 'multimarkdown'
 brew 'node'
 brew 'node-build'
