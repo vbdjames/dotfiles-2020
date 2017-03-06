@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+git log `git describe --tags --abbrev=0`..develop --format=format:"%ad %s" --date=short | sed -n 's/Merge pull request/PR/p' | sed 's/in ECHO\/echo from/-/' | sed 's/ to develop//'
