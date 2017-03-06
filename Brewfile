@@ -12,6 +12,7 @@ brew 'autojump'
 brew 'cmake'
 brew 'coreutils'
 brew 'direnv'
+brew 'elm'
 brew 'git'
 brew 'macvim', args: ['override-system-vim', 'with-cscope', 'with-lua']
 brew 'leiningen'
