@@ -1,5 +1,7 @@
 *.DS_Store
 vim/vim.symlink/.netrwhist
+vim/vim.symlink/bundle
 git/gitconfig.local.symlink
 dbeaver/dbeaver.symlink/.metadata
 dbeaver/dbeaver.symlink/General/.project
+
