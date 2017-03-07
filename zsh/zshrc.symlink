@@ -35,7 +35,8 @@ done
 # initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit
 compinit -D
-# we use antigen, so:
+
+antigen theme gallois
 antigen-apply
 
 # load every completion after autocomplete loads
