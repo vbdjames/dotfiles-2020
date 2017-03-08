@@ -16,25 +16,23 @@ local dell_2309 = "DELL S2309W"
 local viewsonic = "CDE3203"
 
 -- Applications
-local bitbucket = "Bitbucket"
-local calendar = "Calendar"
-local dash = "Dash"
-local fromscratch = "FromScratch"
-local hipchat = "HipChat"
-local intellij = "IntelliJ IDEA"
-local iterm = "iTerm"
-local itunes = "iTunes"
-local jenkins = "Jenkins"
-local jira = "JIRA"
-local mail = "Mail"
-local mapwiki = "Wiki"
-local nvalt = "nvALT"
-local safari = "Safari"
-local spotify = "Spotify"
-local sqldeveloper = "SQLDeveloper"
-local osqldeveloper = "Oracle SQL Developer"
+local bitbucket = "com.fluidapp.FluidApp.Bitbucket"
+local calendar = "com.apple.iCal"
+local dash = "com.kapeli.dash"
+local fromscratch = "com.electron.fromscratch"
+local hipchat = "com.hipchat.HipChat"
+local intellij = "com.jetbrains.intellij"
+local iterm = "com.googlecode.iterm2"
+local jenkins = "com.fluidapp.FluidApp.Jenkins"
+local jira = "com.fluidapp.FluidApp.JIRA"
+local mail = "com.apple.mail"
+local mapwiki = "com.fluidapp.FluidApp.Wiki"
+local nvalt = "net.elasticthreads.nv"
+local safari = "com.apple.Safari"
+local spotify = "com.spotify.client"
+local sqldeveloper = "com.oracle.SQLDeveloper"
 local mapcomclient = "mapcomClient"
-local wunderlist = "Wunderlist"
+local wunderlist = "com.wunderkinder.wunderlistdesktop"
 
 local mapcomCoding = {
     {
@@ -50,7 +48,7 @@ local mapcomCoding = {
     {
         name = { bitbucket, dash, iterm, 
             jenkins, jira, mail, mapwiki, safari, 
-            osqldeveloper },
+            sqldeveloper },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(dell_2309))
             win:maximize()
@@ -76,6 +74,7 @@ local mapcomCoding = {
 -- CONFIGURATION
 --------------------------------------------------------------------------------
 hs.window.animationDuration = 0 -- disable animations
+hs.application.enableSpotlightForNameSearches(true)
 
 --------------------------------------------------------------------------------
 -- MISC HOTKEYS
@@ -229,15 +228,7 @@ function open(appName)
             os.execute("/usr/local/bin/VBoxManage startvm " .. mapcomclient)
         end
         return true;
-    elseif (appName == sqldeveloper) then
-        local app = hs.application.get(osqldeveloper)
-        if (app) then
-            app:activate()
-        else
-            hs.application.open(sqldeveloper)
-        end
     else
-        -- launchOrFocus not working properly for fluidapps
         local app = hs.application.get(appName)
         if (app) then
             app:activate()
@@ -251,7 +242,7 @@ function kill(appName)
     if (appName == mapcomclient) then
         os.execute("/usr/local/bin/VBoxManage controlvm " .. mapcomclient .. " acpipowerbutton")
     else
-        local app = hs.application.find(appName)
+        local app = hs.application.get(appName)
         if (app) then
             app:activate()
             app:kill()
@@ -284,7 +275,7 @@ function endWork()
     hs.alert.show("Shutting down work applications")
     local closeApps = { safari, mapcomclient, bitbucket, calendar, dash, hipchat,
         intellij, iterm, jenkins, jira, mail, mapwiki, 
-        nvalt, wunderlist, spotify, osqldeveloper }
+        nvalt, wunderlist, spotify, sqldeveloper }
     for i, v in ipairs(closeApps) do
         print(v)
         kill(v)
@@ -311,7 +302,7 @@ function applyLayouts(layouts)
     for i, layout in ipairs(layouts) do
         if (type(layout.name) == "table") then
             for i, appName in ipairs(layout.name) do
-                local app = hs.application.find(appName)
+                local app = hs.application.get(appName)
                 if (app) then
                     local wins = app:allWindows()
                     local counter = 1
@@ -324,7 +315,7 @@ function applyLayouts(layouts)
                 end
             end
         elseif (type(layout.name) == "string") then
-            local app = hs.application.find(layout.name)
+            local app = hs.application.get(layout.name)
             if (app) then
                 local wins = app:allWindows()
                 local counter = 1
