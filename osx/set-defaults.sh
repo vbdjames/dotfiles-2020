@@ -53,7 +53,7 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo Hos
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
 # Open new finder window in home directory
-defaults write com.apple.finder NewWIndowTargetPath -string file:///Users/vbdjames/
+defaults write com.apple.finder NewWIndowTargetPath -string file:///Users/djames/
 
 # Ensure the application folder is shown in the dock
 if [[ $(defaults read com.apple.dock persistent-others | grep "Applications") == '' ]]
