@@ -23,6 +23,7 @@ local fromscratch = "com.electron.fromscratch"
 local hipchat = "com.hipchat.HipChat"
 local intellij = "com.jetbrains.intellij"
 local iterm = "com.googlecode.iterm2"
+local terminal = "com.apple.terminal"
 local jenkins = "com.fluidapp.FluidApp.Jenkins"
 local jira = "com.fluidapp.FluidApp.JIRA"
 local mail = "com.apple.mail"
@@ -46,7 +47,7 @@ local mapcomCoding = {
         end
     },
     {
-        name = { bitbucket, dash, iterm, 
+        name = { bitbucket, dash, terminal, 
             jenkins, jira, mail, mapwiki, safari, 
             sqldeveloper },
         func = function(index, win)
@@ -215,7 +216,7 @@ hs.hotkey.bind(hyper, "m", function() open(mail) end )
 hs.hotkey.bind(hyper, "n", function() open(nvalt) end )
 hs.hotkey.bind(hyper, "q", function() open(sqldeveloper) end )
 hs.hotkey.bind(hyper, "s", function() open(safari) end )
-hs.hotkey.bind(hyper, "t", function() open(iterm) end )
+hs.hotkey.bind(hyper, "t", function() open(terminal) end )
 hs.hotkey.bind(hyper, "u", function() open(wunderlist) end )
 hs.hotkey.bind(hyper, "w", function() open(mapwiki) end )
 
@@ -256,7 +257,7 @@ end
 function beginWork()
     hs.alert.show("Opening work applications")
     local apps = { mapcomclient, bitbucket, calendar, dash, hipchat, 
-        intellij, iterm, jenkins, jira, mail, mapwiki, 
+        intellij, terminal, jenkins, jira, mail, mapwiki, 
         nvalt, safari, wunderlist, spotify, sqldeveloper }
     for i, v in ipairs(apps) do
         open(v)
@@ -265,7 +266,7 @@ function beginWork()
     hs.spotify.pause()
 
 
-    -- set up iterm tabs/tmux sessions/...
+    -- set up terminal tabs/tmux sessions/...
     -- start a new dailyrx for today if doesn't exist, else focus todays
     -- launch appropriate layout for morning - but we have to wait intil all the apps 
     -- finish launching before we apply the layout
@@ -274,7 +275,7 @@ end
 function endWork()
     hs.alert.show("Shutting down work applications")
     local closeApps = { safari, mapcomclient, bitbucket, calendar, dash, hipchat,
-        intellij, iterm, jenkins, jira, mail, mapwiki, 
+        intellij, terminal, jenkins, jira, mail, mapwiki, 
         nvalt, wunderlist, spotify, sqldeveloper }
     for i, v in ipairs(closeApps) do
         print(v)
