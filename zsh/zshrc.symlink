@@ -48,3 +48,5 @@ done
 unset config_files
 
 eval "$(pyenv init -)"
+
+eval "$(direnv hook zsh)"
