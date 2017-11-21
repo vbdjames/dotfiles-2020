@@ -1,36 +1,88 @@
 #!/bin/bash
-# ssh-multi
-# D.Kovalov
-# Based on http://linuxpixies.blogspot.jp/2011/06/tmux-copy-mode-and-how-to-control.html
-# a script to ssh multiple servers over multiple tmux panes
-#
-# Mods based on https://github.com/nomad-fr/scripts-systems/blob/master/ssh-multi.sh
+
+# ssh-multi: a script to ssh into multiple servers 
+# over multiple synchronized tmux panes
+
+# Based on work by D.Kovalov and nomad-fr
+# - http://linuxpixies.blogspot.jp/2011/06/tmux-copy-mode-and-how-to-control.html
+# - https://github.com/nomad-fr/scripts-systems/blob/master/ssh-multi.sh
+
+
+user=djames
+tmux_session_name="multi_ssh"
+
+usage() {
+    echo $1
+    echo
+    echo 'ssh-multi : [OPTION]'
+    echo '   -u user                           : user use for ssh connection : default "djames"'
+    echo '   -d "serv0 serv1 serv2 ... servN"  : list serv to connect to'
+    echo '   -x "tail -f /jboss/server/all/log/server.log" : command to execute'
+    echo
+    echo '   Bonus:'
+    echo '   -d "$(echo 'serv'{0..3})" : is the same as : -d "serv0 serv1 serv2 serv3"'
+    echo '   -d "$(anotherscript)" : call a script that give a list of host separated by space'
+    exit 0
+}
+
 starttmux() {
-    if [ -z "$HOSTS" ]; then
-        echo -n "Please provide of list of hosts separated by spaces [ENTER]: "
-        read HOSTS
-    fi
     local hosts=( $HOSTS )
-    tmux new-window "ssh ${hosts[0]}"
+    local windowname=$tmux_session_name
+    tmux new-window -n "${windowname}" ssh $user@${hosts[0]} $cmd
     unset hosts[0];
-    for i in "${hosts[@]}"; do
-        tmux split-window -h  "ssh $i"
-        tmux select-layout tiled > /dev/null
+    for i in "${hosts[@]}"
+    do
+        tmux split-window -t :"${windowname}" -h "ssh $user@$i $cmd"
+        tmux select-layout -t :"${windowname}" tiled > /dev/null
     done
     tmux select-pane -t 0
-    tmux set-window-option synchronize-panes on > /dev/null
+    tmux set-window-option -t :"${windowname}"  synchronize-panes on > /dev/null
 }
+
 checkopt() {
     if [ -z "$HOSTS" ]; then
-        echo -n "Please provide of list of hosts separated by spaces [ENTER]: "
-        read HOSTS
+        usage "Please provide a list of hosts with -d option."
     fi
+
+    tmux_session_name=$(echo -n $tmux_session_name; echo "_"$HOSTS | awk '{print substr($0, 1, 5)}')
+
     if [ -z "$TMUX" ]; then # if not in a tmux session create one
-        tmux -u new-session -d -s multi-ssh
+        counter=0
+        for session in $(tmux ls | awk '{print substr($1, 1, length($1)-1)}')
+        do
+            ((counter++))
+            if [ "$session" = "$tmux_session_name" ]; then
+                tmux_session_name=$tmux_session_name"_"$counter
+            fi
+        done
+
+        tmux -u new-session -d -s $tmux_session_name
         local launchtmux=1
     fi
+
     starttmux
-    if [ "$launchtmux" = 1 ]; then tmux a -dt multi-ssh; fi
+
+    if [ "$launchtmux" = 1 ]; then 
+        tmux a -dt $tmux_session_name
+    fi
 }
-HOSTS=${HOSTS:=$*}
+
+# HOSTS=${HOSTS:=$*}
+while getopts "u:d:h" o; do
+    case "${o}" in
+        h)
+            usage
+            ;;
+        u)
+            user=${OPTARG}
+            ;;
+        d)
+            HOSTS=${OPTARG}
+            ;;
+        x)
+            cmd=${OPTARG}
+            ;;
+    esac
+done
+
 checkopt

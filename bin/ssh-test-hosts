@@ -1,0 +1,4 @@
+#!/bin/bash
+
+dirname="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ssh-multi -d "$(cat ${dirname}/test-hosts)"
