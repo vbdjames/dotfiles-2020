@@ -43,6 +43,7 @@ cask 'atext'
 cask 'backblaze'
 cask 'carbon-copy-cloner'
 cask 'cheatsheet'
+cask 'dash'
 cask 'docker'
 cask 'dropbox'
 cask 'firefox'
@@ -78,7 +79,6 @@ cask 'virtualbox'
 mas 'Blackmagic Disk Speed Test', id: 425264550 
 mas 'Compare Folders', id: 816042486 
 mas 'DaisyDisk', id: 411643860 
-mas 'Dash', id: 458034879 
 mas 'Day One Classic', id: 422304217 
 mas 'Disk Diag', id: 672206759 
 mas 'Gemini', id: 463541543 
