@@ -6,4 +6,4 @@
 [user]
     useConfigOnly = true
 [core]
-    excludesfile = ~/.gitignore_global
+	excludesfile = /Users/djames/.gitignore_global
