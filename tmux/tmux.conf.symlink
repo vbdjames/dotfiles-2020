@@ -29,7 +29,8 @@ set -g status-fg '#aaaaaa'
 set -g status-left ''
 set -g status-right ''
 
-
+# clear screen
+bind -n C-k send-keys -R \; send-keys C-l \; clear-history
 
 # set -g mode-mouse on
 # setw -g mouse-select-window on
@@ -40,9 +41,10 @@ set -g status-right ''
 setw -g mode-keys vi
 bind ` copy-mode
 unbind [
-unbind p
-bind p paste-buffer
-bind -t vi-copy v begin-selection
-bind -t vi-copy y copy-selection
-bind -t vi-copy Escape cancel
+# unbind p
+bind P paste-buffer
+bind-key -Tcopy-mode-vi 'v' begin-selection
+bind-key -Tcopy-mode-vi 'r' rectangle-toggle
+bind-key -Tcopy-mode-vi 'y' copy-selection
+bind-key -Tcopy-mode-vi Escape cancel
 bind y run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
