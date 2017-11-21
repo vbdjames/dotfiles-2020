@@ -70,6 +70,7 @@ cask 'skype'
 cask 'slack'
 cask 'spotify'
 cask 'sql-power-architect-jdbc'
+cask 'taskpaper'
 cask 'tower'
 cask 'vagrant'
 cask 'vagrant-manager'
@@ -89,7 +90,7 @@ mas 'Pages', id: 409201541
 mas 'Paprika Recipe Manager', id: 451907568 
 mas 'Pixelmator', id: 407963104 
 mas 'Pomodoro Timer', id: 872515009 
-mas 'TaskPaper', id: 424281111 
+# mas 'TaskPaper', id: 424281111
 mas 'iPulse', id: 1028916583 
 mas 'Tadam', id: 531349534
 mas 'Wunderlist: To-Do List & Tasks', id: 410628904
