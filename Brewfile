@@ -14,6 +14,7 @@ brew 'coreutils'
 brew 'direnv'
 brew 'elm'
 brew 'git'
+brew 'go', args: ['cross-compile-common']
 brew 'macvim', args: ['override-system-vim', 'with-cscope', 'with-lua']
 brew 'leiningen'
 brew 'maven'
