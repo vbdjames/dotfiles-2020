@@ -4,10 +4,25 @@
 -- CONSTANTS
 --------------------------------------------------------------------------------
 
--- Keyboard modifiers, Capslock bound to cmd+alt+ctrl+shift via Seil and Karabiner
+-- Keyboard modifiers, Capslock bound to F18 via karabiner-elements
+k = hs.hotkey.modal.new({}, "F17")
+
+pressedF18 = function()
+  k.triggered = false
+  k:enter()
+end
+
+releasedF18 = function()
+  k:exit()
+  if not k.triggered then
+    hs.eventtap.keyStroke({}, 'ESCAPE')
+  end
+end
+
+f18 = hs.hotkey.bind({}, 'F18', pressedF18, releasedF18)
+
 local ctrl_alt = {"ctrl", "alt"}
 local ctrl_alt_cmd = {"ctrl", "alt", "cmd"}
-local hyper = {"ctrl", "alt", "cmd", "shift"}
 
 -- Screens at the office
 --
@@ -16,19 +31,22 @@ local dell_2309 = "DELL S2309W"
 local viewsonic = "CDE3203"
 
 -- Applications
+local bear = "net.shinyfrog.Bear"
 local bitbucket = "com.fluidapp.FluidApp.Bitbucket"
 local calendar = "com.apple.iCal"
 local dash = "com.kapeli.dash"
+local eclipse = "org.eclipse.platform.ide"
 local fromscratch = "com.electron.fromscratch"
 local hipchat = "com.hipchat.HipChat"
 local intellij = "com.jetbrains.intellij"
 local iterm = "com.googlecode.iterm2"
-local terminal = "com.apple.terminal"
+-- local terminal = "com.apple.terminal"
 local jenkins = "com.fluidapp.FluidApp.Jenkins"
 local jira = "com.fluidapp.FluidApp.JIRA"
+local kindle = "com.amazon.Kindle"
 local mail = "com.apple.mail"
 local mapwiki = "com.fluidapp.FluidApp.Wiki"
-local nvalt = "net.elasticthreads.nv"
+-- local nvalt = "net.elasticthreads.nv"
 local safari = "com.apple.Safari"
 local spotify = "com.spotify.client"
 local sqldeveloper = "com.oracle.SQLDeveloper"
@@ -37,7 +55,7 @@ local wunderlist = "com.wunderkinder.wunderlistdesktop"
 
 local mapcomCoding = {
     {
-        name = { hipchat, nvalt, spotify, wunderlist, calendar },
+        name = { hipchat, bear, spotify, wunderlist, calendar },
         func = function(index, win)
             win:moveToScreen(hs.screen.find(laptop_screen))
             win:maximize()
@@ -47,7 +65,7 @@ local mapcomCoding = {
         end
     },
     {
-        name = { bitbucket, dash, terminal, 
+        name = { bitbucket, dash, iterm, 
             jenkins, jira, mail, mapwiki, safari, 
             sqldeveloper },
         func = function(index, win)
@@ -80,8 +98,8 @@ hs.application.enableSpotlightForNameSearches(true)
 --------------------------------------------------------------------------------
 -- MISC HOTKEYS
 --------------------------------------------------------------------------------
-hs.hotkey.bind(hyper, 'r', function() hs.reload() end )
-hs.hotkey.bind(hyper, 'y', function() hs.toggleConsole() end )
+k:bind({}, 'r', function() hs.reload(); k:exit(); end)
+k:bind({}, 'y', function() hs.toggleConsole(); k:exit(); end)
 
 --------------------------------------------------------------------------------
 -- METHODS
@@ -205,22 +223,41 @@ hs.hotkey.bind(ctrl_alt_cmd, "t", function()
 end)
 
 -- open apps
-hs.hotkey.bind(hyper, "b", function() open(bitbucket) end )
-hs.hotkey.bind(hyper, "c", function() open(mapcomclient) end )
-hs.hotkey.bind(hyper, "f", function() open(fromscratch) end )
-hs.hotkey.bind(hyper, "h", function() open(hipchat) end )
-hs.hotkey.bind(hyper, "i", function() open(intellij) end )
-hs.hotkey.bind(hyper, "j", function() open(jira) end )
-hs.hotkey.bind(hyper, "k", function() open(jenkins) end )
-hs.hotkey.bind(hyper, "m", function() open(mail) end )
-hs.hotkey.bind(hyper, "n", function() open(nvalt) end )
-hs.hotkey.bind(hyper, "q", function() open(sqldeveloper) end )
-hs.hotkey.bind(hyper, "s", function() open(safari) end )
-hs.hotkey.bind(hyper, "t", function() open(terminal) end )
-hs.hotkey.bind(hyper, "u", function() open(wunderlist) end )
-hs.hotkey.bind(hyper, "w", function() open(mapwiki) end )
+apps = {
+    {'a', kindle},
+    {'b', bitbucket},
+    {'c', mapcomclient},
+    -- d
+    {'e', eclipse},
+    {'f', fromscratch},
+    -- g
+    {'h', hipchat},
+    {'i', intellij},
+    {'j', jira},
+    {'k', jenkins},
+    -- l
+    {'m', mail},
+    {'n', bear},
+    -- o
+    -- p
+    {'q', sqldeveloper},
+    -- r
+    {'s', safari},
+    {'t', iterm},
+    {'u', wunderlist},
+    -- v
+    {'w', mapwiki}
+    -- x
+    -- y
+    -- z
+}
 
-function open(appName)
+for i, app in ipairs(apps) do
+    k:bind({}, app[1], function() open(app[2]); k:exit(); end)
+end
+
+function open(appName, hide)
+    hide = hide or false
     if (appName == mapcomclient) then
         local mapclient = hs.appfinder.appFromWindowTitlePattern(mapcomclient)
         if (mapclient) then
@@ -256,9 +293,9 @@ end
 
 function beginWork()
     hs.alert.show("Opening work applications")
-    local apps = { mapcomclient, bitbucket, calendar, dash, hipchat, 
-        intellij, terminal, jenkins, jira, mail, mapwiki, 
-        nvalt, safari, wunderlist, spotify, sqldeveloper }
+    local apps = { bitbucket, calendar, dash, hipchat, 
+        intellij, iterm, jenkins, jira, mail, mapwiki, 
+        bear, safari, wunderlist, spotify, sqldeveloper }
     for i, v in ipairs(apps) do
         open(v)
     end
@@ -275,7 +312,7 @@ end
 function endWork()
     hs.alert.show("Shutting down work applications")
     local closeApps = { safari, mapcomclient, bitbucket, calendar, dash, hipchat,
-        intellij, terminal, jenkins, jira, mail, mapwiki, 
+        intellij, iterm, jenkins, jira, mail, mapwiki, 
         nvalt, wunderlist, spotify, sqldeveloper }
     for i, v in ipairs(closeApps) do
         print(v)
@@ -331,12 +368,7 @@ function applyLayouts(layouts)
     end
 end
 
-hs.hotkey.bind(hyper, "3", function()
-    applyLayouts(mapcomCoding)
-end)
-
-    
-    
+k:bind({}, '3', function() applyLayouts(mapcomCoding); k:exit(); end)
     
     -- testing config (3-monitor)
     -- windows or testapp on big monitor
@@ -410,6 +442,4 @@ function openToday()
 
 end
 
-hs.hotkey.bind(hyper, "D", function()
-    openToday()
-end)
+k:bind({}, 'd', function() openToday(); k:exit(); end)
