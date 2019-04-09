@@ -1,3 +1,6 @@
 [submodule "keys"]
 	path = private
 	url = /Volumes/keys
+[submodule "secrets"]
+	path = secrets
+	url = /Volumes/secrets/
