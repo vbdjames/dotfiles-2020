@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find . -name "*.iml" -o -name ".idea" | tar -czf intellij-project-settings.tgz -T -
