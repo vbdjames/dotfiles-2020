@@ -15,6 +15,7 @@ brew 'direnv'
 brew 'elm'
 brew 'elm-platform'
 brew 'git'
+brew 'git-flow'
 brew 'go', args: ['cross-compile-common']
 brew 'gradle'
 brew 'macvim', args: ['override-system-vim', 'with-cscope', 'with-lua']
