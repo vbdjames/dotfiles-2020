@@ -4,6 +4,7 @@
 [push]
     default = simple
 [user]
-    useConfigOnly = true
+	useConfigOnly = true
+	name = Doug James
 [core]
 	excludesfile = /Users/djames/.gitignore_global
