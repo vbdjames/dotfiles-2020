@@ -34,8 +34,8 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1
 
 # Set a really fast key repeat.
-defaults write NSGlobalDomain KeyRepeat -int 0
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write NSGlobalDomain KeyRepeat -int 1 # normal is 2 (30 ms)
+defaults write NSGlobalDomain InitialKeyRepeat -int 15 # normal is 15 (225 ms)
 
 # Hide Safari's bookmark bar.
 defaults write com.apple.Safari ShowFavoritesBar -bool false

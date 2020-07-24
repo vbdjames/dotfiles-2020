@@ -16,8 +16,8 @@ There are a few special files in the hierarchy:
 
 - **bin/**": Anything in `bin/` will get added to your `$PATH` and be made
   available everywhere.
-- **Brewfile**: This is a list of applications for [Homebrew](brew.sh) to install:
-  things like ...
+- **Brewfile**: This is a list of applications for [Homebrew](brew.sh) to
+  install: things like ...
 - **topic/*.zsh**: Any files ending in `.zsh` get loaded into your environment.
 - **topic/path.zsh**: Any file named `path.zsh` is loaded first and is expected
   to set up `$PATH` or similar.
@@ -32,19 +32,19 @@ There are a few special files in the hierarchy:
 
 - Install OS X
 - Install Xcode
-- `xcode-select --install`
-- `sudo xcodebuild -license` and agree to license
-- Restore ssh keys and localrc
+- `xcode-select --install` (confirm next time, maybe unnecessary)
+- `sudo xcodebuild -license` and agree to license (confirm next time)
+- launch Xcode, and install "addtional components"
 - Log in to the Mac App Store
 
 ## install
 
-Run this:
+Insert the encrypted USB drive, then run this:
 
 ```sh
-mas login _username_ _password_
 git clone https://github.com/vbdjames/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
+git clone /Volumes/secrets
 script/bootstrap
 ```
 
@@ -65,18 +65,27 @@ what about new dotfiles, etc.
 - Launch 1Password: set up sync.
 - Launch Dropbox: log in and get the sync started, perhaps selectively
 - Launch Alfred: change the launch key and locale and install the powerpack.
-- Launch System Preferences -> Security & Privacy -> Privacy -> Accessibility: enable Keyboard Maestro, Hammerspoon, Karabiner, Alfred, Cheatsheet, and DropBox.
-- Launch Chrome: log in, let it link to 1Password, and install the Pinboard plugin.
-- Launch Safari: let it link to 1Password, and install the Pinboard plugin.
+- Launch System Preferences -> Security & Privacy -> Privacy -> Accessibility: 
+  enable Keyboard Maestro, Hammerspoon, Karabiner, Alfred, Cheatsheet, and 
+  DropBox.
+- Launch Chrome: log in, let it link to 1Password, install the Pinboard 
+  plugin, install the Bear plugin.
+- Launch Safari: let it link to 1Password, install the Pinboard plugin, 
+  install the Bear plugin.
 - Launch Spotify: log in.
 - Launch Finder: add Home to favorites and remove All My Files from favorites.
 - Launch Slack: set up teams (757dev, codeforva, friendshipismagical)
-- Launch IntelliJ: register with JetBrains account, configure Settings Repository (https://github.com/vbdjames/intellij-settings), install plugins (IdeaVim, Relative Line Number, JRebel for IntelliJ), go into Preferences and Activate JRebel
+- Launch IntelliJ: register with JetBrains account, configure Settings 
+  Repository (https://github.com/vbdjames/intellij-settings), install plugins 
+  (IdeaVim, Relative Line Number, JRebel for IntelliJ), go into Preferences and 
+  Activate JRebel
 - Launch nvALT:ange Read notes from folder: ~/Dropbox/Notes
-- Download & install SQLDeveloper, launch and import connections (from ?), set look and feel to "Mac OS X", and Code Editor Font to Source Code Pro, 14.
+- Download & install SQLDeveloper, launch and import connections (from ?), set 
+  look and feel to "Mac OS X", and Code Editor Font to Source Code Pro, 14.
 - TODO: how to deliver music to the new laptop?
 - TODO: how to manage VMs
 
 ## thanks
 
-Modeled heavily on [Zach Holman](http://github.com/holman)'s [dotfiles](http://github.com/holman/dotfiles). 
+Modeled heavily on [Zach Holman](http://github.com/holman)'s 
+[dotfiles](http://github.com/holman/dotfiles). 

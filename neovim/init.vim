@@ -1,46 +1,48 @@
 set nocompatible
-
-set rtp+=~/.vim/bundle/Vundle.vim
 filetype off
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'elixir-editors/vim-elixir'
-Plugin 'Shutnik/jshint2.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'twerth/ir_black'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-jdaddy'
-Plugin 'elzr/vim-json'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-vinegar'
-Plugin 'scrooloose/syntastic'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'aklt/plantuml-syntax'
-Plugin 'hdima/python-syntax'
-Plugin 'fatih/vim-go'
-Plugin 'fmoralesc/vim-pad'
-Plugin 'fmoralesc/vim-tutor-mode'
-Plugin 'guns/vim-clojure-static'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-classpath'
-Plugin 'lambdatoast/elm.vim'
-Plugin 'darfink/vim-plist'
-Plugin 'cwoac/nvvim'
-Plugin 'vimwiki/vimwiki'
-Plugin 'mattn/calendar-vim'
-Plugin 'chazy/dirsettings'
-call vundle#end()
-filetype plugin indent on
+
+call plug#begin()
+
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
+" Plugin 'kien/ctrlp.vim'
+" Plugin 'Shutnik/jshint2.vim'
+" Plugin 'altercation/vim-colors-solarized'
+" Plugin 'twerth/ir_black'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-jdaddy'
+Plug 'elzr/vim-json'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
+Plug 'scrooloose/syntastic'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+" Plugin 'Shougo/neocomplete.vim'
+" Plugin 'editorconfig/editorconfig-vim'
+" Plugin 'aklt/plantuml-syntax'
+" Plugin 'hdima/python-syntax'
+" Plugin 'fatih/vim-go'
+Plug 'fmoralesc/vim-pad', { 'branch': 'devel' }
+" Plugin 'fmoralesc/vim-tutor-mode'
+" Plugin 'guns/vim-clojure-static'
+" Plugin 'kien/rainbow_parentheses.vim'
+" Plugin 'tpope/vim-fireplace'
+" Plugin 'tpope/vim-classpath'
+" Plugin 'lambdatoast/elm.vim'
+" Plugin 'darfink/vim-plist'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'itspriddle/vim-marked'
+
+call plug#end()
 
 let mapleader=","
-syntax on
+" syntax enable
+filetype plugin indent on
 set expandtab
 set shiftwidth=4
 set softtabstop=4
@@ -60,7 +62,7 @@ hi MatchParen guibg=NONE guifg=NONE gui=underline ctermbg=NONE ctermfg=NONE cter
 set ignorecase
 set smartcase
 
-" let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsExpandTrigger="<c-tab>"
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " let g:UltiSnipsEditSplit="vertical"
@@ -78,26 +80,15 @@ let g:syntastic_aggregate_errors = 1
 
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
-let &colorcolumn=join(range(81,999),",")
+" let &colorcolumn=join(range(81,999),",")
 
 " Vim-pad settings
-let g:pad#dir = '~/Dropbox/Notes'
+let g:pad#dir = '~/Documents/Projects/Notes'
 let g:pad#open_in_split = 0
-let g:pad#position = { "list" : "right", "pads" : "bottom" }
+" let g:pad#position = { "list" : "right", "pads" : "bottom" }
 let g:pad#title_first_line = 0
 let g:pad#read_nchars_from_files = 0
 let g:pad#search_backend = 'ag'
-
-" Vimwiki settings
-augroup vimwikigroup
-    autocmd!
-    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-augroup end
-
-let g:calendar_options = 'nornu'
-" let g:vimwiki_table_mappings = 0
-let g:vimwiki_list = [{'path': '~/personalwiki/', 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_global_ext = 0
 
 " ctrlp configuration
 " let g:ctrlp_max_files=0
@@ -140,4 +131,3 @@ map ,t :w\|:!%:p<cr>
 
 nmap <silent> ,/ :nohlsearch<CR>
 
-set statusline+=%F

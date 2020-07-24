@@ -26,7 +26,6 @@ do
   source $file
 done
 
-# load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
 do
   source $file
@@ -50,3 +49,13 @@ unset config_files
 eval "$(pyenv init -)"
 
 eval "$(direnv hook zsh)"
+
+export PATH="$HOME/.emacs.d/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+. /usr/local/opt/asdf/asdf.sh
+
+. /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
+
+alias vwiki="vim -c VimwikiIndex"
